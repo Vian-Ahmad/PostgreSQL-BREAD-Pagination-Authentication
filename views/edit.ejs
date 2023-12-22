@@ -1,0 +1,35 @@
+<%- include('partials/header')%>
+    <div class="container-md bg-body-secondary rounded-2 m-top border border-secondary-subtle">
+        <div class="head">
+            <h1 class="text-center">Updating Data</h1>
+        </div>
+        <form class="" action="/edit" method="post">
+            <div class="row mb-3 bg-body pt-3 pb-3">
+                <label for="Title" class="col-sm-2 col-form-label txt-edit">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" placeholder="insert your title" required>
+                </div>
+                <label for="deadline" class="col-sm-2 col-form-label txt-edit">Deadline</label>
+                <div class="col-sm-10">
+                    <input type="deadtime" class="form-control" id="deadline" required>
+                </div>
+                <div class="col-sm-10 offset-sm-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck1">
+                        <label class="form-check-label" for="gridCheck1">
+                            Example checkbox
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="foot-form">
+                <div class="formBtm">
+                    <button class="btn btn-primary" type="submit">save</button>
+                    <a href="/" class="btn ">
+                        <button class="btn btn-warning" type="button">Back</button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <%- include('partials/footer')%>
