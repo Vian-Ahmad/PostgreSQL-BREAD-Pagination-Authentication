@@ -3,3 +3,39 @@
   justify-content: center;
 }
 
+.list {
+  display: flex;
+  align-items: baseline !important;
+}
+
+.list-comp {
+  width: 81.2%;
+  margin-left: 12px;
+  margin-top: -20px;
+  
+}
+
+.op {
+  margin-top: 20px;
+}
+
+.left-comp {
+  margin-top: -5px;
+}
+
+.rad-list {
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+}
+
+.line {
+  margin-top: 5px;
+  border-top: 2px solid #ccc;
+  padding: 5px;
+  width: 100%;
+}
+
+.btn-group-search {
+  margin-top: -5px;
+}
