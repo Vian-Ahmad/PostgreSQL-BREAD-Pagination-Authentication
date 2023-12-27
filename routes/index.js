@@ -7,6 +7,10 @@ router.get('/', (req, res) => {
   res.render('users/login')
 })
 
+router.get('/register', (req, res) => {
+  res.render('users/register')
+})
+
 router.get('/upload', (req, res) => {
   res.render('upload')
 })
