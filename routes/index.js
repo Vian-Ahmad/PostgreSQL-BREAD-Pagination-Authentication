@@ -1,16 +1,17 @@
 var express = require ('express');
 var router = express.Router();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
+router.get('/', (req, res) => {
+  res.render('users/login')
+})
 
 router.get('/upload', (req, res) => {
   res.render('upload')
 })
 
-router.get('/', (req, res) => {
+router.get('/index', (req, res) => {
   res.render('index')
 })
 
