@@ -39,3 +39,18 @@
 .btn-group-search {
   margin-top: -5px;
 }
+
+.ava {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.btn-out {
+  display: flex;
+  justify-content: flex-end;
+  transform: translateY(-3em);
+
+}
+

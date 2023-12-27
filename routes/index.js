@@ -6,6 +6,10 @@ var router = express.Router();
 //   res.render('index', { title: 'Express' });
 // });
 
+router.get('/upload', (req, res) => {
+  res.render('upload')
+})
+
 router.get('/', (req, res) => {
   res.render('index')
 })
@@ -17,5 +21,6 @@ router.get('/add', (req, res) => {
 router.get('/edit', (req, res) => {
   res.render('edit')
 })
+
 
 module.exports = router;
