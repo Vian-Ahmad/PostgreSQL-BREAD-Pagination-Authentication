@@ -1,21 +1,10 @@
 var express = require ('express');
 var router = express.Router();
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+var path = require('path');
+
+
 
 router.get('/', (req, res) => {
-  res.render('users/login')
-})
-
-router.get('/register', (req, res) => {
-  res.render('users/register')
-})
-
-router.get('/upload', (req, res) => {
-  res.render('upload')
-})
-
-router.get('/index', (req, res) => {
   res.render('index')
 })
 
@@ -26,6 +15,30 @@ router.get('/add', (req, res) => {
 router.get('/edit', (req, res) => {
   res.render('edit')
 })
+
+router.get('/upload', (req, res) => {
+  res.render('upload')
+})
+
+router.post('/upload', function(req,res) {
+  let sampleFile;
+  let uploadPath;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  sampleFile = req.files.avatar;
+  uploadPath = path.join(__dirname, '..', 'public', 'images', sampleFile.name)
+  // console.log(uploadPath)
+
+  sampleFile.mv(uploadPath, function(err) {
+    if (err)
+    return res.status(500).send(err);
+
+    res.send('File uploaded!');
+  });
+});
 
 
 module.exports = router;
