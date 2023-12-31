@@ -10,6 +10,33 @@ module.exports = function (db) {
     res.render('users/login')
   })
 
+  router.post('/', async (req, res) => {
+
+
+    try {
+      const { email, password } = req.body
+      console.log(req.body, 'WOY WOY WOY')
+      const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email])
+      console.log(rows)
+      const passwordMatch = bcrypt.compareSync(password, rows[0].password)
+      console.log('password :', password)
+      if (rows.length == 0) {
+        new Error(`email doesn't exist`)
+        res.redirect('/')
+      };
+      if (!passwordMatch) {
+        new Error(`password wrong`)
+        res.redirect('/')
+      };
+      res.redirect('/users')
+
+    } catch (error) {
+      console.log(error, 'salah woy')
+
+    }
+  })
+
+
 
   router.get('/register', (req, res) => {
     console.log('NIHH JAWABANNYA 2')
