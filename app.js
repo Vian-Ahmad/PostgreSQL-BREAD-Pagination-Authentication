@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'keyboard cat',
+  secret: `you'll never walk alone`,
   resave: false,
   saveUninitialized: true,
 }))

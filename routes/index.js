@@ -1,22 +1,25 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+const { isLoggedIn } = require('../helper/split.js');
 
 
 module.exports = function (db) {
-  router.get('/', (req, res) => {
+
+
+  router.get('/', isLoggedIn, (req, res) => {
     res.render('index')
   })
 
-  router.get('/add', (req, res) => {
+  router.get('/add', isLoggedIn, (req, res) => {
     res.render('add')
   })
 
-  router.get('/edit', (req, res) => {
+  router.get('/edit', isLoggedIn, (req, res) => {
     res.render('edit')
   })
 
-  router.get('/upload', (req, res) => {
+  router.get('/upload', isLoggedIn, (req, res) => {
     res.render('upload')
   })
 
