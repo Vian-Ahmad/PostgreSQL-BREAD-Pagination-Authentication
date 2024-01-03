@@ -7,8 +7,7 @@ const saltRounds = 10;
 module.exports = function (db) {
 
   router.get('/', (req, res) => {
-
-    res.render('users/login')
+    res.render('users/login', {errorMessage: req.flash('errorMessage'), successMessage: req.flash('successMessage')} )
   })
 
   router.post('/', async (req, res) => {
@@ -17,42 +16,44 @@ module.exports = function (db) {
       const { email, password } = req.body
       const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email])
       if (rows.length == 0) {
-        new Error(`email doesn't exist`)
+        req.flash('errorMessage', `Email doesn't exist`)
         res.redirect('/')
       };
       const storedPass = rows[0].password
       const passwordMatch = bcrypt.compareSync(password, storedPass)
       if (!passwordMatch) {
-        new Error(`password wrong`)
+        req.flash('errorMessage', 'Password is wrong')
         res.redirect('/')
       };
-      req.session.user = storedPass
-
+      req.session.user = { email: rows[0].email, userid: rows[0].id}
       res.redirect('/users')
 
     } catch (error) {
-      
-
+      console.log(error)
+      res.redirect('/')
     }
   })
 
   router.get('/register', (req, res) => {
 
-    res.render('users/register')
+    res.render('users/register', {errorMessage: req.flash('errorMessage'), successMessage: req.flash('successMessage')} )
   })
 
   router.post('/register', async (req, res) => {
     const { email, password, repassword } = req.body
     try {
-      if (password !== repassword) throw new Error(`password doesn't match`)
+      if (password !== repassword)
+      req.flash('errorMessage', `password doesn't match`)
       const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email])
       console.log(rows)
-      if (rows.length > 0) throw new Error(`email already exist`)
+      if (rows.length > 0) 
+      req.flash('errorMessage', `Email already exist`)
       const hash = bcrypt.hashSync(password, saltRounds);
       const { rows: users } = await db.query('INSERT INTO users(email, password) VALUES ($1, $2) returning *', [email, hash])
+      req.flash('successMessage', `Successfully registered, please sign in!`)
       res.redirect('/')
     } catch (error) {
-      res.send(error.message)
+      res.redirect('/register')
     }
 
   })

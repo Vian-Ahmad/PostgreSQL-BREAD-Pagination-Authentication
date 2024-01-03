@@ -1,100 +1,107 @@
 <%- include('partials/header')%>
-  <div class="card">
-    <div class="container-ava bg-light">
-      <div class="item-ava">
-        <div class="ava">
-          <a href="users/upload"><img src="images/sampelpic.jpg" alt="avatarpic" class="avatar"></a>
-          <h3>novian@gmail.com</3>
-        </div>
-        <div class="btn-out">
-          <div class="position-relative">
-            <a href="/">
-              <button type="button" class="btn btn-secondary"><i class="fa-solid fa-right-from-bracket"></i> Sign out</button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card-header head-idx">
-      <div class="head">
-        <h1 class="text-center">PostgreSQL Breads(Browse, Read, Add, Delete, Sort)</h1>
-      </div>
-    </div>
-    <div class="card-body">
-      <form>
-        <div class="row mb-2">
-          <label for="title" class="col-sm-2 col-form-label">Title</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="title" placeholder="insert your title">
-          </div>
-        </div>
-        <div class="row mb-1">
-          <label for="startdate" class="col-sm-2 col-form-label">Deadline</label>
-          <div class="col-sm-4">
-            <input type="date" class="form-control" name="startdate">
-          </div>
-          <label for="enddate" class="col-sm-2 col-form-label">
-            <p class="into">s.d.</p>
-          </label>
-          <div class="col-sm-4">
-            <input type="date" class="form-control" name="enddate">
-          </div>
-        </div>
-        <div class="row mb-2 list">
-          <legend class="col-form-label col-sm-2 pt-0 left-comp">Complete</legend>
-          <select class="form-select list-comp" aria-label="Default select example">
-            <option selected>--Select Complete--</option>
-            <option value="1">Note Yet</option>
-            <option value="2">Done</option>
-          </select>
-        </div>
-        <div class="op">
-          <fieldset class="row mb-3">
-            <legend class="col-form-label col-sm-2 pt-0">Operation</legend>
-            <div class="col-sm-10 rad-list">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                <label class="form-check-label" for="gridRadios1">
-                  OR
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                <label class="form-check-label" for="gridRadios2">
-                  AND
-                </label>
+
+  <body>
+    <div class="container-md rounded-2 mt-2">
+      <div class="card">
+        <div class="container-ava bg-light">
+          <div class="item-ava">
+            <div class="ava">
+              <a href="users/upload"><img src="images/sampelpic.jpg" alt="avatarpic" class="avatar"></a>
+              <h3>novian@gmail.com</3>
+            </div>
+            <div class="btn-out">
+              <div class="position-relative">
+                <a href="/">
+                  <button type="button" class="btn btn-secondary"><i class="fa-solid fa-right-from-bracket"></i> Sign
+                    out</button>
+                </a>
               </div>
             </div>
-          </fieldset>
-        </div>
-        <div class="btn-group-search">
-          <div class="formBtm">
-            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <a href="/users">
-              <button class="btn btn-warning" type="button"><i class="fa-solid fa-arrows-rotate"></i></button>
-            </a>
           </div>
         </div>
-      </form>
-      <div class="line"></div>
+        <div class="card-header head-idx">
+          <div class="head">
+            <h1 class="text-center">PostgreSQL Breads(Browse, Read, Add, Delete, Sort)</h1>
+          </div>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row mb-2">
+              <label for="title" class="col-sm-2 col-form-label">Title</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" placeholder="insert your title">
+              </div>
+            </div>
+            <div class="row mb-1">
+              <label for="startdate" class="col-sm-2 col-form-label">Deadline</label>
+              <div class="col-sm-4">
+                <input type="date" class="form-control" name="startdate">
+              </div>
+              <label for="enddate" class="col-sm-2 col-form-label">
+                <p class="into">s.d.</p>
+              </label>
+              <div class="col-sm-4">
+                <input type="date" class="form-control" name="enddate">
+              </div>
+            </div>
+            <div class="row mb-2 list">
+              <legend class="col-form-label col-sm-2 pt-0 left-comp">Complete</legend>
+              <select class="form-select list-comp" aria-label="Default select example">
+                <option selected>--Select Complete--</option>
+                <option value="1">Note Yet</option>
+                <option value="2">Done</option>
+              </select>
+            </div>
+            <div class="op">
+              <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-2 pt-0">Operation</legend>
+                <div class="col-sm-10 rad-list">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1"
+                      checked>
+                    <label class="form-check-label" for="gridRadios1">
+                      OR
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                    <label class="form-check-label" for="gridRadios2">
+                      AND
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="btn-group-search">
+              <div class="formBtm">
+                <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a href="/users">
+                  <button class="btn btn-warning" type="button"><i class="fa-solid fa-arrows-rotate"></i></button>
+                </a>
+              </div>
+            </div>
+          </form>
+          <div class="line"></div>
+        </div>
+        <div class="tab-list">
+          <table class="table table-striped">
+            <tr>
+              <th>No</th>
+              <th>Title</th>
+              <th>Complete</th>
+              <th>Deadline</th>
+              <th>Actions</th>
+            </tr>
+          </table>
+        </div>
+        <div class="card-footer">
+          <a href="users/add">
+            <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="tab-list">
-      <table class="table table-striped">
-        <tr>
-          <th>No</th>
-          <th>Title</th>
-          <th>Complete</th>
-          <th>Deadline</th>
-          <th>Actions</th>
-        </tr>
-      </table>
-    </div>
-    <div class="card-footer">
-      <a href="users/add">
-        <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
-      </a>
-    </div>
-  </div>
+  </body>
   <%- include('partials/footer')%>
 
     <!-- <div class="tbl-edit">
