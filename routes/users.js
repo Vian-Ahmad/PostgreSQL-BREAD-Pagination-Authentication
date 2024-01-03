@@ -15,22 +15,25 @@ module.exports = function (db) {
     try {
       const { email, password } = req.body
       const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email])
+
       if (rows.length == 0) {
         req.flash('errorMessage', `Email doesn't exist`)
-        res.redirect('/')
+        return res.redirect('/')
       };
+
       const storedPass = rows[0].password
       const passwordMatch = bcrypt.compareSync(password, storedPass)
+      
       if (!passwordMatch) {
         req.flash('errorMessage', 'Password is wrong')
-        res.redirect('/')
+        return res.redirect('/')
       };
+
       req.session.user = { email: rows[0].email, userid: rows[0].id}
       res.redirect('/users')
-
     } catch (error) {
       console.log(error)
-      res.redirect('/')
+      return res.redirect('/')
     }
   })
 
@@ -53,6 +56,7 @@ module.exports = function (db) {
       req.flash('successMessage', `Successfully registered, please sign in!`)
       res.redirect('/')
     } catch (error) {
+      req.flash('errorMessage', `An error occured while processing data, please try again`)
       res.redirect('/register')
     }
 
