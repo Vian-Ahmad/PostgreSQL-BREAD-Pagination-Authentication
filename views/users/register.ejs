@@ -18,12 +18,12 @@
                 </div>
                 <div class="form-floating">
                   <input type="password" class="form-control" id="floatingPassword" name="password"
-                    placeholder="Password">
+                    placeholder="Password" required>
                   <label for="floatingPassword">Password</label>
                 </div>
                 <div class="form-floating mb-2">
                   <input type="password" class="form-control" id="floatingPassword" name="repassword"
-                    placeholder="Password">
+                    placeholder="Password" required>
                   <label for="floatingPassword">Retype Password</label>
                 </div>
 
@@ -35,6 +35,7 @@
                 </div>
                 <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
               </form>
+              <%- include('../partials/alert')%>
             </div>
           </div>
         </div>

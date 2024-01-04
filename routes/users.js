@@ -7,7 +7,7 @@ const saltRounds = 10;
 module.exports = function (db) {
 
   router.get('/', (req, res) => {
-    res.render('users/login', {errorMessage: req.flash('errorMessage'), successMessage: req.flash('successMessage')} )
+    res.render('users/login', { errorMessage: req.flash('errorMessage'), successMessage: req.flash('successMessage') })
   })
 
   router.post('/', async (req, res) => {
@@ -23,13 +23,13 @@ module.exports = function (db) {
 
       const storedPass = rows[0].password
       const passwordMatch = bcrypt.compareSync(password, storedPass)
-      
+
       if (!passwordMatch) {
         req.flash('errorMessage', 'Password is wrong')
         return res.redirect('/')
       };
 
-      req.session.user = { email: rows[0].email, userid: rows[0].id}
+      req.session.user = { email: rows[0].email, usersid: rows[0].id }
       res.redirect('/users')
     } catch (error) {
       console.log(error)
@@ -38,19 +38,26 @@ module.exports = function (db) {
   })
 
   router.get('/register', (req, res) => {
-
-    res.render('users/register', {errorMessage: req.flash('errorMessage'), successMessage: req.flash('successMessage')} )
+    res.render('users/register', { errorMessage: req.flash('errorMessage'), successMessage: req.flash('successMessage') })
   })
 
   router.post('/register', async (req, res) => {
     const { email, password, repassword } = req.body
     try {
-      if (password !== repassword)
-      req.flash('errorMessage', `password doesn't match`)
+      if (password !== repassword) {
+        req.flash('errorMessage', `password doesn't match`)
+        res.redirect('/register')
+        return
+      }
+
       const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email])
       console.log(rows)
-      if (rows.length > 0) 
-      req.flash('errorMessage', `Email already exist`)
+      if (rows.length > 0) {
+        req.flash('errorMessage', `Email already exist`)
+        res.redirect('/register')
+        return
+      }
+      
       const hash = bcrypt.hashSync(password, saltRounds);
       const { rows: users } = await db.query('INSERT INTO users(email, password) VALUES ($1, $2) returning *', [email, hash])
       req.flash('successMessage', `Successfully registered, please sign in!`)
@@ -63,12 +70,12 @@ module.exports = function (db) {
   })
 
   router.get('/logout', (req, res) => {
-    req.session.destroy(function(err) {
+    req.session.destroy(function (err) {
       res.redirect('users/logout')
     })
-    
+
   })
 
-  return router 
+  return router
 
 }

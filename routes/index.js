@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var moment = require('moment')
 const { isLoggedIn } = require('../helper/split.js');
 
 
@@ -12,8 +13,20 @@ module.exports = function (db) {
   })
 
   router.get('/add', isLoggedIn, (req, res) => {
-    res.render('add')
+    res.render('add', {data: {}})
   })
+
+  router.post('/add', isLoggedIn, (req, res) => {
+    const title = req.body.title
+    const userId = req.session.user.usersid
+    db.query('INSERT INTO todos(title, usersid) VALUES($1, $2)', [title, userId], (err) => {
+      if (err) return res.send(err)
+      res.redirect('/users')
+    })
+    console.log(title)
+    console.log(userId)
+  })
+
 
   router.get('/edit', isLoggedIn, (req, res) => {
     res.render('edit')

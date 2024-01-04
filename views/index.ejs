@@ -86,12 +86,28 @@
         <div class="tab-list">
           <table class="table table-striped">
             <tr>
-              <th>No</th>
+              <th>No.</th>
               <th>Title</th>
               <th>Complete</th>
               <th>Deadline</th>
               <th>Actions</th>
             </tr>
+            <% data.forEach((item, index)=> {
+              <tr>
+                <td>
+                  <%= index + 1 + offset %>
+                </td>
+                <td>
+                  <%= item.title %>
+                </td>
+                <td>
+                  <%= item.complete ? 'done' : 'not yet' %>
+                </td>
+                <td>
+                  <%= item.deadline %>
+                </td>
+              </tr>
+            }) %>
           </table>
         </div>
         <div class="card-footer">
