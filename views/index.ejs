@@ -92,8 +92,9 @@
               <th>Deadline</th>
               <th>Actions</th>
             </tr>
-            <% data.forEach((item, index)=> {
-              <tr>
+            <% data.forEach((item, index) => { %>
+              <% const isOverdue = new Date(item.deadline) < new Date() && !item.complete %>
+              <tr class="<%= isOverdue ? 'overdue-task' : '' %>">
                 <td>
                   <%= index + 1 + offset %>
                 </td>
@@ -104,24 +105,26 @@
                   <%= item.complete ? 'done' : 'not yet' %>
                 </td>
                 <td>
-                  <%= item.deadline %>
+                  <%= moment(item.deadline).format(" DD MMM YYYY HH:mm") %>
+                </td>
+                <td>
+                  <a href="users/edit/<%= item.id %>">
+                    <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
+                  </a>
+                  <a href="<%= isOverdue ? '#' : '/users/delete/' + item.id %>" class="delete"
+                    <% if (!isOverdue) { %> onclick="opendialog('<%= item.id %>', '<%= item.title %>')" <% } %>>
+                    <i class="fa-solid fa-trash"></i></a>
                 </td>
               </tr>
-            }) %>
+          <%  }) %>
           </table>
         </div>
         <div class="card-footer">
           <a href="users/add">
-            <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
+            <button class="btn btn-success" type="button"><i class="fa-solid fa-pen"></i></button>
           </a>
         </div>
       </div>
     </div>
   </body>
   <%- include('partials/footer')%>
-
-    <!-- <div class="tbl-edit">
-      <a href="/edit" class="tombol">
-        <button class="btm-add" type="button">edit</button>
-      </a>
-    </div> -->

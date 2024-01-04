@@ -73,3 +73,8 @@
   transform: translateY(1em);  
 
 }
+
+.overdue-task {
+  background-color: #F75352;
+  color: white
+}

@@ -51,7 +51,6 @@ module.exports = function (db) {
       }
 
       const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email])
-      console.log(rows)
       if (rows.length > 0) {
         req.flash('errorMessage', `Email already exist`)
         res.redirect('/register')
