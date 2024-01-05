@@ -8,21 +8,24 @@ const { profile } = require('console');
 
 module.exports = function (db) {
 
+
   router.get('/', isLoggedIn, async (req, res) => {
+    const { page = 1, title, startdate, enddate, complete, type_search, sort } = req.query;
+    const limit = 5
+    const offset = (page - 1) * limit
     let sql = 'SELECT * FROM todos WHERE usersid = $1'
     const params = []
     const { rows: profil } = await db.query(`SELECT * FROM "users" WHERE id = $1`, [req.session.user.usersid])
+    params.push(req.session.user.usersid)
     db.query(sql, params, (err, { rows: data }) => {
       if (err) res.send(err)
       else
-        res.render('index', { data, moment, profil: profil[0] })
+        res.render('index', { data, moment, offset, profil: profil[0] })
     })
-    console.log(params)
-    console.log(profil)
   })
 
   router.get('/add', isLoggedIn, (req, res) => {
-    res.render('add', {data: {}})
+    res.render('add', { data: {} })
   })
 
   router.post('/add', isLoggedIn, (req, res) => {
@@ -37,8 +40,32 @@ module.exports = function (db) {
   })
 
 
-  router.get('/edit', isLoggedIn, (req, res) => {
-    res.render('edit')
+  router.get('/edit/:id', isLoggedIn, (req, res) => {
+    const id = req.params.id
+    db.query('SELECT * FROM todos WHERE id = $1', [id], (err, { rows: data }) => {
+      if (err) return res.send(err)
+      res.render('edit', { data, moment })
+    })
+
+  })
+
+  router.post('/edit/:id', isLoggedIn, (req, res) => {
+    const id = req.params.id
+    const { title, deadline, complete } = req.body
+    db.query('UPDATE todos SET title = $1, complete = $2, deadline = $3 WHERE id = $4', [title, Boolean(complete), deadline, id], (err, data) => {
+      if (err) return res.send(err)
+      res.redirect('/users')
+    })
+
+  })
+
+  router.get('/delete/:id', isLoggedIn, (req, res) => {
+    const id = req.params.id
+    db.query('DELETE * FROM todos WHERE id = $1', [id], (err) => {
+      if (err) return res.send(err)
+      res.render('/users')
+    })
+
   })
 
   router.get('/upload', isLoggedIn, (req, res) => {

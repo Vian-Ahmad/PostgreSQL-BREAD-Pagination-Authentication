@@ -6,7 +6,7 @@
         <div class="container-ava bg-light">
           <div class="item-ava">
             <div class="ava">
-              <a href="users/upload"><img src="images/sampelpic.jpg" alt="avatarpic" class="avatar"></a>
+              <a href="users/upload"><img src="images/sampelpic.jpg" class="avatar"></a>
               <h3>novian@gmail.com</3>
             </div>
             <div class="btn-out">
@@ -87,9 +87,9 @@
           <table class="table table-striped">
             <tr>
               <th>No.</th>
-              <th>Title</th>
-              <th>Complete</th>
-              <th>Deadline</th>
+              <th><i class="fa-solid fa-sort"></i> Title</th>
+              <th><i class="fa-solid fa-sort"></i> Complete</th>
+              <th><i class="fa-solid fa-sort"></i> Deadline</th>
               <th>Actions</th>
             </tr>
             <% data.forEach((item, index) => { %>
@@ -108,12 +108,13 @@
                   <%= moment(item.deadline).format(" DD MMM YYYY HH:mm") %>
                 </td>
                 <td>
-                  <a href="users/edit/<%= item.id %>">
-                    <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
+                  <a href="/users/edit/<%= item.id %>">
+                    <button class="btn btn-success" type="button"><i class="fa-solid fa-pen"></i></button>
                   </a>
                   <a href="<%= isOverdue ? '#' : '/users/delete/' + item.id %>" class="delete"
                     <% if (!isOverdue) { %> onclick="opendialog('<%= item.id %>', '<%= item.title %>')" <% } %>>
-                    <i class="fa-solid fa-trash"></i></a>
+                    <button class="btn btn-danger" type="button"><i class="fa-solid fa-trash"></i></button>
+                    </a>
                 </td>
               </tr>
           <%  }) %>
@@ -121,7 +122,7 @@
         </div>
         <div class="card-footer">
           <a href="users/add">
-            <button class="btn btn-success" type="button"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
           </a>
         </div>
       </div>
