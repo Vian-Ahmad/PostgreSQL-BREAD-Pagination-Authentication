@@ -134,8 +134,8 @@
                         <%= moment(item.deadline).format(" DD MMM YYYY HH:mm")%>
                       </td>
                       <td>
-                        <a href="/users/edit/<%= item.id%> " class="update"><i class="fa-solid fa-pencil"></i></a>&nbsp
-                        <a href="#" class="delete" onclick="opendialog(`<%= item.id%>` , `<%= item.title%>`)"><i
+                        <a href="/users/edit/<%= item.id%> " class="btn btn-success update"><i class="fa-solid fa-pencil"></i></a>&nbsp
+                        <a href="#" class="btn btn-danger delete" onclick="opendialog(`<%= item.id%>` , `<%= item.title%>`)"><i
                             class="fa-solid fa-trash"></i></a>
 
                       </td>
