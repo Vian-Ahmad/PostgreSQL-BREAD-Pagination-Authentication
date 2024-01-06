@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 var moment = require('moment')
 const { isLoggedIn } = require('../helper/split.js');
-const { profile } = require('console');
+
 
 
 module.exports = function (db) {

@@ -96,8 +96,8 @@
 
 .modal-dialog {
   position: relative;
-  width: 30%;
-  margin: 1% auto 20% auto;
+  width: 35%;
+  margin: 1% auto 23% auto;
   pointer-events: none;
 }
 
@@ -115,7 +115,7 @@
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 0.3rem;
+  border-radius: 0.4rem;
   outline: 0;
 }
 
@@ -131,8 +131,8 @@
   justify-content: space-between;
   padding: 1rem;
   border-bottom: 1px solid #e9ecef;
-  border-top-left-radius: 0.3rem;
-  border-top-right-radius: 0.3rem;
+  border-top-left-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
 }
 
 .modal-title {
@@ -162,39 +162,42 @@
 
 .modal-footer {
   display: flex;
-  justify-content: flex-end;
+
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
   border-top: 1px solid #e9ecef;
 }
 
 .off-click {
   background-color: #5e646f;
   color: white;
-  padding: 10px 12px;
+  padding: 10px 13px;
   border: none;
   cursor: pointer;
-  width: 20%;
+  width: 55%;
   border-radius: 7px;
   margin: 8px;
   margin-left: 3px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .nextdel {
   background-color: rgb(249, 181, 55);
   color: black;
-  padding: 10.8px 30px;
-  padding-top: 8px;
-  margin-top: 10.5px;
-  margin-right: 10px;
-  margin-bottom: 9px;
-  border: none; 
+  padding: 10px 15px;
+  border: none;
   cursor: pointer;
-  width: 8%;
-  text-decoration: none;
-  text-align: center;
+  width: 60%;
   border-radius: 7px;
-  font-size: 15px;
+  margin: 8px;
+  margin-left: 3px;
+  margin-right: 3px;
+  text-decoration: none;
+}
+
+.btn-grp { 
+display: flex;
+flex-direction: row;
+margin-right: 15px;
+
 }
