@@ -14,13 +14,14 @@
 // function closeDialog() {
 //     document.getElementById('deleteConfirm').style.display = 'none';
 // }
-
-function on(id, name) {
+// lokasi file javascript/delAlert
+function on(usersid, title) {
     document.getElementById("notif").style.display = "block";
-    document.getElementById("nextdelete").setAttribute("href", `/delete/${id}`);
+    document.getElementById("nextdelete").setAttribute("href", `users/delete/${usersid}`);
     document.getElementById(
       "ask"
-    ).innerHTML = `Apakah kamu yakin akan menghapus data '${name}'?`;
+    ).innerHTML = `Apakah kamu yakin akan menghapus data '${title}'?`;
+    return false
   }
   
   function off() {
