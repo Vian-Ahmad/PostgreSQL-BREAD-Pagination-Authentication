@@ -7,7 +7,9 @@
           <div class="item-ava">
             <div class="ava">
               <a href="users/upload"><img src="images/sampelpic.jpg" class="avatar"></a>
-              <h3>novian@gmail.com</3>
+              <h3>
+                <%= profil.email%>
+                  </3>
             </div>
             <div class="btn-out">
               <div class="position-relative">
@@ -113,7 +115,7 @@
                     <td style="background-color: #F75352; color: white;">
                       <a href="/users/edit/<%= item.id%> " class="btn btn-success update"><i
                           class="fa-solid fa-pencil"></i></a>&nbsp <a href="/users/delete/<%= item.id%>"
-                        class="btn btn-danger delete" onclick="return confirmation('<%= item.title%>')"><i
+                        class="btn btn-danger delete" onclick="on(`<%= item.id%>`, `<%= item.title%>` )"><i
                           class="fa-solid fa-trash"></i></a>
 
                     </td>
@@ -134,9 +136,12 @@
                         <%= moment(item.deadline).format(" DD MMM YYYY HH:mm")%>
                       </td>
                       <td>
-                        <a href="/users/edit/<%= item.id%> " class="btn btn-success update"><i class="fa-solid fa-pencil"></i></a>&nbsp
-                        <a href="#" class="btn btn-danger delete" onclick="opendialog(`<%= item.id%>` , `<%= item.title%>`)"><i
+                        <a href="/users/edit/<%= item.id%> " class="btn btn-success update"><i
+                            class="fa-solid fa-pencil"></i></a>&nbsp
+                        <a href="/users/delete/<%= item.id%>" class="btn btn-danger delete"
+                          onclick="on(`<%= item.id%>` , `<%= item.title%>`)"><i
                             class="fa-solid fa-trash"></i></a>
+
 
                       </td>
 
@@ -153,10 +158,6 @@
       </div>
     </div>
     </div>
-    <script>
-      function confirmation(name) {
-        return confirm(`Apakah kamu yakin akan menghapus data '${name}' ?`)
-      }
-    </script>
+    <%- include('partials/delete-confirm')%>
   </body>
   <%- include('partials/footer')%>

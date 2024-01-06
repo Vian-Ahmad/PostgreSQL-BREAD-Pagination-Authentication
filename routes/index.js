@@ -70,12 +70,11 @@ module.exports = function (db) {
   })
 
   router.get('/delete/:index', isLoggedIn, (req, res) => {
-    const index = req.params.index
+    const index = req.params.index;
     db.query(`DELETE FROM todos WHERE id = $1`, [index], (err) => {
-      if (err) return res.send(err)
+      if (err) res.send(err)
       else res.redirect('/users')
     })
-
   })
 
   router.get('/upload', isLoggedIn, (req, res) => {
