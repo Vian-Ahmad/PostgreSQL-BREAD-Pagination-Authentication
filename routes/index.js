@@ -42,8 +42,10 @@ module.exports = function (db) {
 
   router.get('/edit/:id', isLoggedIn, (req, res) => {
     const id = req.params.id
+    
     db.query('SELECT * FROM todos WHERE id = $1', [id], (err, { rows: data }) => {
       if (err) return res.send(err)
+      console.log(new Date(data[0].deadline), 'ini datanya')
       res.render('edit', { data, moment })
     })
 
@@ -52,17 +54,7 @@ module.exports = function (db) {
   router.post('/edit/:id', isLoggedIn, (req, res) => {
     const id = req.params.id
     const { title, complete, deadline } = req.body
-
-    if (!title || !deadline) {
-      return res.status(400).send('Title and deadline are required');
-    }
-  
-    // Validasi deadline jika diperlukan (gunakan format yang sesuai dengan kebutuhan aplikasi Anda)
-    const isValidDeadline = moment(deadline, 'YYYY-MM-DD HH:mm', true).isValid();
-    if (!isValidDeadline) {
-      return res.status(400).send('Invalid deadline format');
-    }
-
+    console.log("ini deadline post:", deadline )
     db.query(`UPDATE todos SET title = $1, complete = $2, deadline = $3 WHERE id = $4`, [title, Boolean(complete), deadline, id], (err) => {
       if (err) return res.send(err) 
       res.redirect('/users')

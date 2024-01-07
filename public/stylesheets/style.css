@@ -43,14 +43,20 @@
 .container-ava {
   border-bottom: 1px solid rgb(202, 202, 202);
   border-radius: 5px 5px 0px 0px;
-  background-color: aqua;
   padding-bottom: -90px !important;
 }
 
 .ava {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 30px;
+}
+
+.ava a {
+  display: flex;
+  height: 50%;
+  flex-direction: row;
 }
 
 .avatar {
@@ -59,7 +65,9 @@
   height: 50px;
   border-radius: 50%;
   margin-left: 10px;
-  background-color: #F75352;
+  overflow: hidden;
+  z-index: 100;
+
 }
 
 .btn-out {
@@ -70,14 +78,8 @@
 
 }
 
-.item-ava {
+.item-up {
   transform: translateY(1em);  
-
-}
-
-.overdue-task {
-  background-color: #F75352;
-  color: white
 }
 
 #notif {
