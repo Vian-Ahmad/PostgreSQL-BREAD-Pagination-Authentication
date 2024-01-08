@@ -35,8 +35,6 @@ module.exports = function (db) {
       if (err) return res.send(err)
       res.redirect('/users')
     })
-    console.log(title)
-    console.log(userId)
   })
 
 
@@ -45,7 +43,6 @@ module.exports = function (db) {
 
     db.query('SELECT * FROM todos WHERE id = $1', [id], (err, { rows: data }) => {
       if (err) return res.send(err)
-      console.log(new Date(data[0].deadline), 'ini datanya')
       res.render('edit', { data, moment })
     })
 
@@ -54,7 +51,6 @@ module.exports = function (db) {
   router.post('/edit/:id', isLoggedIn, (req, res) => {
     const id = req.params.id
     const { title, complete, deadline } = req.body
-    console.log("ini deadline post:", deadline)
     db.query(`UPDATE todos SET title = $1, complete = $2, deadline = $3 WHERE id = $4`, [title, Boolean(complete), deadline, id], (err) => {
       if (err) return res.send(err)
       res.redirect('/users')
