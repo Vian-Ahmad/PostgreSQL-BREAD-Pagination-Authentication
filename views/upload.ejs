@@ -16,9 +16,12 @@
                                 <input type="file" class="form-control" name="avatar" placeholder="choose file">
                             </div>
                         </div>
-                        <div class="row mb-3 mt-3 px-3">
+                        <div class="row mb-3 mt-3">
                             <label for="title" class="col-sm-2 col-form-label">Preview</label>
-                           
+                            <div class="col-sm-10">
+                                <img id="avatarImg" src="<%= pp? `../images/${pp}` : `../images/sampelpic.jpg` %>"
+                                    alt="avatar" class="preview">
+                            </div>
                         </div>
                 </div>
                 <div class="card-footer">
@@ -37,4 +40,17 @@
             </div>
         </div>
     </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const avatar = document.querySelector('input[name="avatar"]');
+            const avatarImg = document.getElementById('avatarImg')
+
+            avatar.onchange = () => {
+                const [file] = avatar.files
+                if (file) {
+                    avatarImg.src = URL.createObjectURL(file)
+                }
+            }
+        })
+    </script>
     <%- include('partials/footer')%>
