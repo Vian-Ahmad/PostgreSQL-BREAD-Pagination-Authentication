@@ -15,7 +15,7 @@ module.exports = function (db) {
     const offset = (page - 1) * limit
     let sql = 'SELECT * FROM todos WHERE usersid = $1'
     const params = []
-    const { rows: profil } = await db.query(`SELECT * FROM "users" WHERE id = $1`, [req.session.user.usersid])
+    const { rows: profil } = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.user.usersid])
     params.push(req.session.user.usersid)
     db.query(sql, params, (err, { rows: data }) => {
       if (err) res.send(err)
@@ -42,7 +42,7 @@ module.exports = function (db) {
 
   router.get('/edit/:id', isLoggedIn, (req, res) => {
     const id = req.params.id
-    
+
     db.query('SELECT * FROM todos WHERE id = $1', [id], (err, { rows: data }) => {
       if (err) return res.send(err)
       console.log(new Date(data[0].deadline), 'ini datanya')
@@ -54,9 +54,9 @@ module.exports = function (db) {
   router.post('/edit/:id', isLoggedIn, (req, res) => {
     const id = req.params.id
     const { title, complete, deadline } = req.body
-    console.log("ini deadline post:", deadline )
+    console.log("ini deadline post:", deadline)
     db.query(`UPDATE todos SET title = $1, complete = $2, deadline = $3 WHERE id = $4`, [title, Boolean(complete), deadline, id], (err) => {
-      if (err) return res.send(err) 
+      if (err) return res.send(err)
       res.redirect('/users')
     })
   })
@@ -69,29 +69,28 @@ module.exports = function (db) {
     })
   })
 
-  router.get('/upload', isLoggedIn, (req, res) => {
-    res.render('upload')
+  router.get('/upload', isLoggedIn, async (req, res) => {
+    const { rows: profil } = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.user.usersid])
+    res.render('upload', { pp: profil[0].avatar })
   })
 
-  // router.post('/upload', function (req, res) {
-  //   let sampleFile;
-  //   let uploadPath;
+  router.post('/upload', function (req, res) {
 
-  //   if (!req.files || Object.keys(req.files).length === 0) {
-  //     return res.status(400).send('No files were uploaded.');
-  //   }
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
 
-  //   sampleFile = req.files.avatar;
-  //   uploadPath = path.join(__dirname, '..', 'public', 'images', sampleFile.name)
-  //   // console.log(uploadPath)
+    const avatar = req.files.avatar;
+    const fileName = `${Date.now()}-${avatar.name}`
+    uploadPath = path.join(__dirname, '..', 'public', 'images', fileName)
 
-  //   sampleFile.mv(uploadPath, function (err) {
-  //     if (err)
-  //       return res.status(500).send(err);
+    avatar.mv(uploadPath, async function (err) {
+      if (err)
+        return res.status(500).send(err);
+      const { rows } = await db.query(`UPDATE users SET avatar = $1 WHERE id = $2`, [fileName, req.session.user.usersid])
+        res.redirect('/users');
+      });
+    });
+    return router
 
-  //     res.send('File uploaded!');
-  //   });
-  // });
-  return router
-
-}
+  }

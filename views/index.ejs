@@ -6,7 +6,7 @@
         <div class="container-ava bg-light">
           <div class="item-up">
             <div class="ava">
-              <a href="users/upload"><img src="images/sampelpic.jpg" alt="avatar" class="avatar"></a>
+              <a href="users/upload"><img src="<%= profil.avatar ? `/images/${profil.avatar}` : `../images/sampelpic.jpg` %>" alt="avatar" class="avatar"></a>
               <h3>
                 <%= profil.email%>
                   </3>
