@@ -10,18 +10,48 @@ module.exports = function (db) {
 
 
   router.get('/', isLoggedIn, async (req, res) => {
-    const { page = 1, title, startdate, enddate, complete, type_search, sort } = req.query;
+    const { page = 1, title, startdate, enddate, complete, operator } = req.query;
     const limit = 5
-    const offset = (page - 1) * limit
-    let sql = 'SELECT * FROM todos WHERE usersid = $1'
+    const queries = []
     const params = []
+    const basketParams = []
+    const offset = (page - 1) * limit
     const { rows: profil } = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.user.usersid])
     params.push(req.session.user.usersid)
-    db.query(sql, params, (err, { rows: data }) => {
+    basketParams.push(req.session.user.usersid)
+
+
+    if (title) {
+      queries.push(`title ILIKE '%' || $${params.length + 1} || '%'`)
+      params.push(title)
+      basketParams.push(title)
+    }
+
+    let sql = 'SELECT * FROM todos WHERE usersid = $1'
+    let sqlcount = `SELECT COUNT (*) as total FROM todos WHERE usersid = $1`
+
+    if (queries.length > 0) {
+      sql += ` AND (${queries.join(`${operator}`)})`
+      sqlcount += ` AND (${queries.join(`${operator}`)})`
+    }
+
+    // sql += ` ORDER BY ${sortBy} ${sort}`
+    sql += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}`
+    params.push(limit, offset)
+    console.log('YANG INI:', sql )
+    db.query(sqlcount, basketParams, (err, data) => {
+      console.log('cek ini:', data)
       if (err) res.send(err)
-      else
-        res.render('index', { data, moment, offset, profil: profil[0] })
+      const total = data.rows[0].total
+      const pages = Math.ceil(total / limit)
+      console.log('YANG INI SATUNYA:', sql)
+      db.query(sql, params, (err, { rows: data }) => {
+        if (err) return res.send(err)
+        res.render('index', { data, query: req.query, moment, pages, page, offset, profil: profil[0] })
+      })
+
     })
+
   })
 
   router.get('/add', isLoggedIn, (req, res) => {
@@ -84,9 +114,9 @@ module.exports = function (db) {
       if (err)
         return res.status(500).send(err);
       const { rows } = await db.query(`UPDATE users SET avatar = $1 WHERE id = $2`, [fileName, req.session.user.usersid])
-        res.redirect('/users');
-      });
+      res.redirect('/users');
     });
-    return router
+  });
+  return router
 
-  }
+}

@@ -6,7 +6,9 @@
         <div class="container-ava bg-light">
           <div class="item-up">
             <div class="ava">
-              <a href="users/upload"><img src="<%= profil.avatar ? `/images/${profil.avatar}` : `../images/sampelpic.jpg` %>" alt="avatar" class="avatar"></a>
+              <a href="users/upload"><img
+                  src="<%= profil.avatar ? `/images/${profil.avatar}` : `../images/sampelpic.jpg` %>" alt="avatar"
+                  class="avatar"></a>
               <h3>
                 <%= profil.email%>
                   </3>
@@ -27,11 +29,11 @@
           </div>
         </div>
         <div class="card-body">
-          <form>
+          <form method="get">
             <div class="row mb-2">
               <label for="title" class="col-sm-2 col-form-label">Title</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="title" placeholder="insert your title">
+                <input type="text" class="form-control" id="title" name="title" placeholder="insert your title" value="<%= query.title %>">
               </div>
             </div>
             <div class="row mb-1">
@@ -58,19 +60,49 @@
               <fieldset class="row mb-3">
                 <legend class="col-form-label col-sm-2 pt-0">Operation</legend>
                 <div class="col-sm-10 rad-list">
+                  <% if (query.operator == 'OR') { %>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1"
+                    <input class="form-check-input" type="radio" name="operator" id="or" value="OR"
                       checked>
-                    <label class="form-check-label" for="gridRadios1">
+                    <label class="form-check-label" for="or">
                       OR
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                    <label class="form-check-label" for="gridRadios2">
+                    <input class="form-check-input" type="radio" name="operator" id="and" value="AND">
+                    <label class="form-check-label" for="and">
                       AND
                     </label>
                   </div>
+                  <% } else if (query.operator == 'AND') { %>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="operator" id="or" value="OR"
+                        >
+                      <label class="form-check-label" for="or">
+                        OR
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="operator" id="and" value="AND" checked>
+                      <label class="form-check-label" for="and">
+                        AND
+                      </label>
+                    </div>
+                    <% } else { %>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="operator" id="or" value="OR"
+                          checked>
+                        <label class="form-check-label" for="or">
+                          OR
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="operator" id="and" value="AND">
+                        <label class="form-check-label" for="and">
+                          AND
+                        </label>
+                      </div>
+                      <% } %>
                 </div>
               </fieldset>
             </div>
@@ -97,7 +129,7 @@
               </tr>
             </thead>
             <tbody>
-              <%data.forEach((item,index)=>{ %>
+              <% data.forEach((item,index)=>{ %>
                 <%if(new Date(`${item.deadline}`)< new Date()&& !item.complete){ %>
                   <tr>
                     <td style="background-color: #F75352; color: white;">
