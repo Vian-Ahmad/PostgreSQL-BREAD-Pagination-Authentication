@@ -27,6 +27,26 @@ module.exports = function (db) {
       basketParams.push(title)
     }
 
+    if (startdate && enddate) {
+      queries.push(`deadline BETWEEN $${params.length + 1} AND $${params.length + 2}`)
+      params.push(startdate, enddate)
+      basketParams.push(startdate, enddate)
+    } else if (startdate) {
+      queries.push(`deadline >= $${params.length + 1}`)
+      params.push(startdate)
+      basketParams.push(startdate)
+    } else if (enddate) {
+      queries.push(`deadline <= $${params.length + 2}`)
+      params.push(enddate)
+      basketParams.push(enddate)
+    }
+
+    if (complete) {
+      queries.push(` complete = $${params.length + 1}`)
+      params.push(complete)
+      basketParams.push(complete)
+    }
+
     let sql = 'SELECT * FROM todos WHERE usersid = $1'
     let sqlcount = `SELECT COUNT (*) as total FROM todos WHERE usersid = $1`
 
@@ -38,13 +58,10 @@ module.exports = function (db) {
     // sql += ` ORDER BY ${sortBy} ${sort}`
     sql += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}`
     params.push(limit, offset)
-    console.log('YANG INI:', sql )
     db.query(sqlcount, basketParams, (err, data) => {
-      console.log('cek ini:', data)
       if (err) res.send(err)
       const total = data.rows[0].total
       const pages = Math.ceil(total / limit)
-      console.log('YANG INI SATUNYA:', sql)
       db.query(sql, params, (err, { rows: data }) => {
         if (err) return res.send(err)
         res.render('index', { data, query: req.query, moment, pages, page, offset, profil: profil[0] })

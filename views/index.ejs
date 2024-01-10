@@ -39,22 +39,36 @@
             <div class="row mb-1">
               <label for="startdate" class="col-sm-2 col-form-label">Deadline</label>
               <div class="col-sm-4">
-                <input type="date" class="form-control" name="startdate">
+                <input type="date" class="form-control" name="startdate" value="<%= query.startdate %>">
               </div>
               <label for="enddate" class="col-sm-2 col-form-label">
                 <p class="into">s.d.</p>
               </label>
               <div class="col-sm-4">
-                <input type="date" class="form-control" name="enddate">
+                <input type="date" class="form-control" name="enddate" value="<%= query.enddate %>">
               </div>
             </div>
-            <div class="row mb-2 list">
+            <div class="row mb-2 list"> 
               <legend class="col-form-label col-sm-2 pt-0 left-comp">Complete</legend>
-              <select class="form-select list-comp" aria-label="Default select example">
-                <option selected>--Select Complete--</option>
-                <option value="1">Note Yet</option>
-                <option value="2">Done</option>
+              <% if (query.complete=='true') { %>
+              <select class="form-select list-comp" aria-label="Default select example" name="complete">
+                <option value="" disabled>--Select Complete--</option>
+                <option value="false">Note Yet</option>
+                <option value="true" selected>Done</option>
               </select>
+              <% } else if (query.complete=='false') { %>
+                <select class="form-select list-comp" aria-label="Default select example" name="complete">
+                  <option value="" disabled>--Select Complete--</option>
+                  <option value="false" selected>Note Yet</option>
+                  <option value="true">Done</option>
+                </select>
+                <% } else { %>
+                  <select class="form-select list-comp" aria-label="Default select example" name="complete">
+                    <option value="" selected>--Select Complete--</option>
+                    <option value="false">Note Yet</option>
+                    <option value="true">Done</option>
+                  </select>
+                  <% } %>
             </div>
             <div class="op">
               <fieldset class="row mb-3">
