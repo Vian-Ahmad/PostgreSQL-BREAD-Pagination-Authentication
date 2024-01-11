@@ -213,3 +213,7 @@ margin-right: 15px;
   flex-direction: row;
   justify-content: space-between;
 }
+
+a {
+  text-decoration: none;
+}
