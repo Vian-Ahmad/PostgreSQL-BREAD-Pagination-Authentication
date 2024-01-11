@@ -32,9 +32,12 @@
           <form method="get">
             <div class="row mb-2">
               <input type="hidden" name="page" value="1">
+              <input type="hidden" name="sortBy" value="<%= sortBy %>">
+              <input type="hidden" name="sortMode" value="<%= sortMode %>">
               <label for="title" class="col-sm-2 col-form-label">Title</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="title" name="title" placeholder="insert your title" value="<%= query.title %>">
+                <input type="text" class="form-control" id="title" name="title" placeholder="insert your title"
+                  value="<%= query.title %>">
               </div>
             </div>
             <div class="row mb-1">
@@ -49,75 +52,32 @@
                 <input type="date" class="form-control" name="enddate" value="<%= query.enddate %>">
               </div>
             </div>
-            <div class="row mb-2 list"> 
+            <div class="row mb-2 list">
               <legend class="col-form-label col-sm-2 pt-0 left-comp">Complete</legend>
-              <% if (query.complete=='true') { %>
               <select class="form-select list-comp" aria-label="Default select example" name="complete">
-                <option value="" disabled>--Select Complete--</option>
-                <option value="false">Note Yet</option>
-                <option value="true" selected>Done</option>
+                <option value="">--Select Complete--</option>
+                <option value="false" <%= query.complete == 'false' ? 'selected' : '' %>>Note Yet</option>
+                <option value="true" <%= query.complete == 'true' ? 'selected' : '' %>>Done</option>
               </select>
-              <% } else if (query.complete=='false') { %>
-                <select class="form-select list-comp" aria-label="Default select example" name="complete">
-                  <option value="" disabled>--Select Complete--</option>
-                  <option value="false" selected>Note Yet</option>
-                  <option value="true">Done</option>
-                </select>
-                <% } else { %>
-                  <select class="form-select list-comp" aria-label="Default select example" name="complete">
-                    <option value="" selected>--Select Complete--</option>
-                    <option value="false">Note Yet</option>
-                    <option value="true">Done</option>
-                  </select>
-                  <% } %>
             </div>
             <div class="op">
               <fieldset class="row mb-3">
                 <legend class="col-form-label col-sm-2 pt-0">Operation</legend>
                 <div class="col-sm-10 rad-list">
-                  <% if (query.operator == 'OR') { %>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="operator" id="or" value="OR"
-                      checked>
-                    <label class="form-check-label" for="or">
-                      OR
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="operator" id="and" value="AND">
-                    <label class="form-check-label" for="and">
-                      AND
-                    </label>
-                  </div>
-                  <% } else if (query.operator == 'AND') { %>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="operator" id="or" value="OR"
-                        >
+                    <input class="form-check-input" type="radio" name="operator" id="or" value="OR" <% if
+                      (query.operator !=='AND' ) { %> checked <% } %>>
                       <label class="form-check-label" for="or">
                         OR
                       </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="operator" id="and" value="AND" checked>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="operator" id="and" value="AND" <% if
+                      (query.operator=='AND' ) { %> checked <% } %>>
                       <label class="form-check-label" for="and">
                         AND
                       </label>
-                    </div>
-                    <% } else { %>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="operator" id="or" value="OR"
-                          checked>
-                        <label class="form-check-label" for="or">
-                          OR
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="operator" id="and" value="AND">
-                        <label class="form-check-label" for="and">
-                          AND
-                        </label>
-                      </div>
-                      <% } %>
+                  </div>
                 </div>
               </fieldset>
             </div>
@@ -132,12 +92,12 @@
           </form>
           <div class="line"></div>
         </div>
-        <div class="tab-list">
+        <div class="tab-list"> 
           <table class="table table-striped">
             <thead>
               <tr>
                 <th>No.</th>
-                <th><i class="fa-solid fa-sort"></i> Title</th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=title').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Title</a></th>
                 <th><i class="fa-solid fa-sort"></i> Complete</th>
                 <th><i class="fa-solid fa-sort"></i> Deadline</th>
                 <th>Actions</th>
@@ -188,10 +148,7 @@
                         <a href="/users/delete/<%= item.id%>" class="btn btn-danger"
                           onclick="return on(`<%= item.id%>` , `<%= item.title%>`)"><i
                             class="fa-solid fa-trash"></i></a>
-
-
                       </td>
-
                     </tr>
                     <% }}) %>
             </tbody>
@@ -201,64 +158,45 @@
           <a href="users/add">
             <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
           </a>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <!-- Tombol Previous -->
-            <li class="page-item">
-              <% if (url.includes("page=")) { %>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
                 <% if (page == '1') { %>
-                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page}`) %>" aria-label="Previous">
+                <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page}`) %>" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
                 <% } else { %>
                   <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page - 1}`) %>" aria-label="Previous">
-                <% } %>
-              <% } else { %>
-                <% if (page == '1') { %>
-                  <a class="page-link" href="#" aria-label="Previous">
-                <% } else { %>
-                  <a class="page-link" href="/?page=<%= page - 1 %>" aria-label="Previous">
-                <% } %>
-              <% } %>
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-        
-            <!-- Daftar Halaman -->
-            <% for (let i = 1; i <= pages; i++) { %>
-              <li class="page-item <%= page == i ? 'active' : '' %>">
-                <% if (url.includes("page=")) { %>
-                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${i}`) %>"><%= i %></a>
-                <% } else { %>
-                  <a class="page-link" href="/users/?page=<%= i %>"><%= i %></a>
-                <% } %>
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                  <% } %>
               </li>
-            <% } %>            
-        
-            <!-- Tombol Next -->
-            <li class="page-item">
-              <% if (url.includes("page=")) { %>
-                <% if (page == pages) { %>
-                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page}`) %>" aria-label="Next">
-                <% } else { %>
-                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${(page * 1) + 1}`) %>" aria-label="Next">
+              <% for (let i=1; i <=pages; i++) { %>
+                <li class="page-item <%= page == i ? 'active' : '' %>">
+                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${i}`)  %>">
+                    <%= i %>
+                  </a>
+                </li>
                 <% } %>
-              <% } else { %>
-                <% if (page == pages) { %>
-                  <a class="page-link" href="#" aria-label="Next">
-                <% } else { %>
-                  <a class="page-link" href="/users/?page=<%= Number(page) + 1 %>" aria-label="Next">
-                <% } %>
-              <% } %>
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+                  <li class="page-item">
+                    <% if (page == pages) { %>
+                    <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page}`)%>"
+                      aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    <% } else { %>
+                      <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${(page * 1) + 1}`)%>"
+                        aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                      <% } %>
+                  </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
     </div>
     <%- include('partials/delete-confirm')%>
   </body>
   <%- include('partials/footer')%>
-
-  

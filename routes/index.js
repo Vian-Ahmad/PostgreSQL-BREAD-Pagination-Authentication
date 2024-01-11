@@ -16,7 +16,7 @@ module.exports = function (db) {
     const params = []
     const basketParams = []
     const offset = (page - 1) * limit
-    const sortBy = ['title', 'compete', 'deadline'].includes(req.query.sortBy) ? req.query.sortBy : 'id'
+    const sortBy = ['title', 'complete', 'deadline'].includes(req.query.sortBy) ? req.query.sortBy : 'id'
     const sortMode = req.query.sortMode === 'asc' ? 'asc' : 'desc'
     const { rows: profil } = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.user.usersid])
     params.push(req.session.user.usersid)
@@ -30,7 +30,7 @@ module.exports = function (db) {
     }
 
     if (startdate && enddate) {
-      queries.push(`deadline BETWEEN $${params.length + 1} AND $${params.length + 2}`)
+      queries.push(`deadline BETWEEN $${params.length + 1} AND $${params.length + 2}::TIMESTAMP + INTERVAL '1 DAY - 1 SECOND'`)
       params.push(startdate, enddate)
       basketParams.push(startdate, enddate)
     } else if (startdate) {
@@ -38,7 +38,7 @@ module.exports = function (db) {
       params.push(startdate)
       basketParams.push(startdate)
     } else if (enddate) {
-      queries.push(`deadline <= $${params.length + 2}`)
+      queries.push(`deadline <= $${params.length + 1}::TIMESTAMP + INTERVAL '1 DAY - 1 SECOND'`)
       params.push(enddate)
       basketParams.push(enddate)
     }
@@ -62,12 +62,14 @@ module.exports = function (db) {
     params.push(limit, offset)
     db.query(sqlcount, basketParams, (err, data) => {
       if (err) res.send(err)
-      const url = req.url == '/' ? `/?page=${page}` : req.url
+      const url = req.url == '/' ? `/?page=1$sortBy=${sortBy}&sortMode=${sortMode}` : req.url
       const total = data.rows[0].total
       const pages = Math.ceil(total / limit)
+      console.log("ini BACAAAAA", sql)
+      console.log('INI YG PARAMS', params)
       db.query(sql, params, (err, { rows: data }) => {
         if (err) return res.send(err)
-        res.render('index', { data, query: req.query, moment, url, pages, page, offset, profil: profil[0] })
+        res.render('index', { data, query: req.query, moment, url, sortBy, sortMode, pages, page, offset, profil: profil[0] })
       })
 
     })
