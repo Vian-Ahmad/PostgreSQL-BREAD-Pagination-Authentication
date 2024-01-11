@@ -16,6 +16,8 @@ module.exports = function (db) {
     const params = []
     const basketParams = []
     const offset = (page - 1) * limit
+    const sortBy = ['title', 'compete', 'deadline'].includes(req.query.sortBy) ? req.query.sortBy : 'id'
+    const sortMode = req.query.sortMode === 'asc' ? 'asc' : 'desc'
     const { rows: profil } = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.user.usersid])
     params.push(req.session.user.usersid)
     basketParams.push(req.session.user.usersid)
@@ -55,16 +57,17 @@ module.exports = function (db) {
       sqlcount += ` AND (${queries.join(`${operator}`)})`
     }
 
-    // sql += ` ORDER BY ${sortBy} ${sort}`
+    sql += ` ORDER BY ${sortBy} ${sortMode}`
     sql += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}`
     params.push(limit, offset)
     db.query(sqlcount, basketParams, (err, data) => {
       if (err) res.send(err)
+      const url = req.url == '/' ? `/?page=${page}` : req.url
       const total = data.rows[0].total
       const pages = Math.ceil(total / limit)
       db.query(sql, params, (err, { rows: data }) => {
         if (err) return res.send(err)
-        res.render('index', { data, query: req.query, moment, pages, page, offset, profil: profil[0] })
+        res.render('index', { data, query: req.query, moment, url, pages, page, offset, profil: profil[0] })
       })
 
     })
@@ -120,7 +123,7 @@ module.exports = function (db) {
   router.post('/upload', function (req, res) {
 
     if (!req.files || Object.keys(req.files).length === 0) {
-      return /*res.status(400).send('No files were uploaded.');*/ res.redirect('/users')
+      return res.redirect('/users')
     }
 
     const avatar = req.files.avatar;

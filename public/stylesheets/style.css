@@ -70,7 +70,6 @@
   object-fit: cover;
 }
 
-
 .btn-out {
   display: flex;
   justify-content: flex-end;
@@ -207,4 +206,10 @@ margin-right: 15px;
 
 .preview {
   width: 20%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

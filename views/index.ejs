@@ -31,6 +31,7 @@
         <div class="card-body">
           <form method="get">
             <div class="row mb-2">
+              <input type="hidden" name="page" value="1">
               <label for="title" class="col-sm-2 col-form-label">Title</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="title" name="title" placeholder="insert your title" value="<%= query.title %>">
@@ -196,14 +197,68 @@
             </tbody>
           </table>
         </div>
-        <div class="card-footer">
+        <div class="card-footer footer">
           <a href="users/add">
             <button class="btn btn-primary" type="button"><i class="fa-solid fa-plus"></i></button>
           </a>
-        </div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <!-- Tombol Previous -->
+            <li class="page-item">
+              <% if (url.includes("page=")) { %>
+                <% if (page == '1') { %>
+                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page}`) %>" aria-label="Previous">
+                <% } else { %>
+                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page - 1}`) %>" aria-label="Previous">
+                <% } %>
+              <% } else { %>
+                <% if (page == '1') { %>
+                  <a class="page-link" href="#" aria-label="Previous">
+                <% } else { %>
+                  <a class="page-link" href="/?page=<%= page - 1 %>" aria-label="Previous">
+                <% } %>
+              <% } %>
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+        
+            <!-- Daftar Halaman -->
+            <% for (let i = 1; i <= pages; i++) { %>
+              <li class="page-item <%= page == i ? 'active' : '' %>">
+                <% if (url.includes("page=")) { %>
+                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${i}`) %>"><%= i %></a>
+                <% } else { %>
+                  <a class="page-link" href="/users/?page=<%= i %>"><%= i %></a>
+                <% } %>
+              </li>
+            <% } %>            
+        
+            <!-- Tombol Next -->
+            <li class="page-item">
+              <% if (url.includes("page=")) { %>
+                <% if (page == pages) { %>
+                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${page}`) %>" aria-label="Next">
+                <% } else { %>
+                  <a class="page-link" href="/users<%= url.replace(`page=${page}`, `page=${(page * 1) + 1}`) %>" aria-label="Next">
+                <% } %>
+              <% } else { %>
+                <% if (page == pages) { %>
+                  <a class="page-link" href="#" aria-label="Next">
+                <% } else { %>
+                  <a class="page-link" href="/users/?page=<%= Number(page) + 1 %>" aria-label="Next">
+                <% } %>
+              <% } %>
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
       </div>
     </div>
     </div>
     <%- include('partials/delete-confirm')%>
   </body>
   <%- include('partials/footer')%>
+
+  
