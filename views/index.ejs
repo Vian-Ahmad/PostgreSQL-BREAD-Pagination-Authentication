@@ -32,8 +32,8 @@
           <form method="get">
             <div class="row mb-2">
               <input type="hidden" name="page" value="1">
-              <input type="hidden" name="sortBy" value="<%= sortBy %>">
-              <input type="hidden" name="sortMode" value="<%= sortMode %>">
+              <input type="hidden" name="sortBy" value="id">
+              <input type="hidden" name="sortMode" value="asc">
               <label for="title" class="col-sm-2 col-form-label">Title</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="title" name="title" placeholder="insert your title"
@@ -98,8 +98,8 @@
               <tr>
                 <th>No.</th>
                 <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=title').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Title</a></th>
-                <th><i class="fa-solid fa-sort"></i> Complete</th>
-                <th><i class="fa-solid fa-sort"></i> Deadline</th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=complete').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Complete</a></th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=deadline').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Deadline</a></th>
                 <th>Actions</th>
               </tr>
             </thead>

@@ -62,7 +62,7 @@ module.exports = function (db) {
     params.push(limit, offset)
     db.query(sqlcount, basketParams, (err, data) => {
       if (err) res.send(err)
-      const url = req.url == '/' ? `/?page=1$sortBy=${sortBy}&sortMode=${sortMode}` : req.url
+      const url = req.url == '/' ? `/?page=${page}&$sortBy=${sortBy}&sortMode=${sortMode}` : req.url
       const total = data.rows[0].total
       const pages = Math.ceil(total / limit)
       console.log("ini BACAAAAA", sql)
