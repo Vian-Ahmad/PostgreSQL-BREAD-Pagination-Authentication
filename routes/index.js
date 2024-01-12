@@ -53,8 +53,8 @@ module.exports = function (db) {
     let sqlcount = `SELECT COUNT (*) as total FROM todos WHERE usersid = $1`
 
     if (queries.length > 0) {
-      sql += ` AND (${queries.join(`${operator}`)})`
-      sqlcount += ` AND (${queries.join(`${operator}`)})`
+      sql += ` AND (${queries.join(`${operator} `)})`
+      sqlcount += ` AND (${queries.join(`${operator} `)})`
     }
 
     sql += ` ORDER BY ${sortBy} ${sortMode}`
@@ -65,8 +65,7 @@ module.exports = function (db) {
       const url = req.url == '/' ? `/?page=${page}&$sortBy=${sortBy}&sortMode=${sortMode}` : req.url
       const total = data.rows[0].total
       const pages = Math.ceil(total / limit)
-      console.log("ini BACAAAAA", sql)
-      console.log('INI YG PARAMS', params)
+
       db.query(sql, params, (err, { rows: data }) => {
         if (err) return res.send(err)
         res.render('index', { data, query: req.query, moment, url, sortBy, sortMode, pages, page, offset, profil: profil[0] })
