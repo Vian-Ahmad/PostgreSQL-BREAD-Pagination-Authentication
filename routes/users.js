@@ -70,7 +70,7 @@ module.exports = function (db) {
 
   router.get('/logout', (req, res) => {
     req.session.destroy(function (err) {
-      res.redirect('users/logout')
+      res.redirect('/')
     })
 
   })
