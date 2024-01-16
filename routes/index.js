@@ -17,7 +17,7 @@ module.exports = function (db) {
     const basketParams = []
     const offset = (page - 1) * limit
     const sortBy = ['title', 'complete', 'deadline'].includes(req.query.sortBy) ? req.query.sortBy : 'id'
-    const sortMode = req.query.sortMode === 'asc' ? 'asc' : 'desc'
+    const sortMode = req.query.sortMode === 'asc' ? 'asc' : 'desc';
     const { rows: profil } = await db.query(`SELECT * FROM users WHERE id = $1`, [req.session.user.usersid])
     params.push(req.session.user.usersid)
     basketParams.push(req.session.user.usersid)
@@ -53,18 +53,19 @@ module.exports = function (db) {
     let sqlcount = `SELECT COUNT (*) as total FROM todos WHERE usersid = $1`
 
     if (queries.length > 0) {
-      sql += ` AND (${queries.join(`${operator} `)})`
-      sqlcount += ` AND (${queries.join(`${operator} `)})`
+      sql += ` AND (${queries.join(` ${operator} `)})`
+      sqlcount += ` AND (${queries.join(` ${operator} `)})`
     }
 
     sql += ` ORDER BY ${sortBy} ${sortMode}`
     sql += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}`
     params.push(limit, offset)
-
+    console.log('ini NIHH :', sql)
+    console.log('ini param :', params)
     console.log(sortBy)
     db.query(sqlcount, basketParams, (err, data) => {
       if (err) res.send(err)
-      const url = req.url == '/' ? `/?page=${page}&$sortBy=${sortBy}&sortMode=${sortMode}` : req.url
+      const url = req.url == '/' ? `/?page=${page}&sortBy=${sortBy}&sortMode=${sortMode}` : req.url
       const total = data.rows[0].total
       const pages = Math.ceil(total / limit)
 

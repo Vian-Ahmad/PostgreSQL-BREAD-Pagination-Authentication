@@ -32,8 +32,8 @@
           <form method="get">
             <div class="row mb-2">
               <input type="hidden" name="page" value="1">
-              <input type="hidden" name="sortBy" value="id">
-              <input type="hidden" name="sortMode" value="asc">
+              <input type="hidden" name="sortBy" value="<%= sortBy %>">
+              <input type="hidden" name="sortMode" value="<%= sortMode %>">
               <label for="title" class="col-sm-2 col-form-label">Title</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="title" name="title" placeholder="insert your title"
@@ -97,9 +97,9 @@
             <thead>
               <tr>
                 <th>No.</th>
-                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, `sortBy=title`).replace(`sortMode=${sortMode}`,`sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`)%>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort'%>"></i> Title</a></th>
-                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, `sortBy=complete`).replace(`sortMode=${sortMode}`,`sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`)%>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Complete</a></th>
-                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=deadline').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'deadline' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Deadline</a></th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, `sortBy=title`).replace(`sortMode=${sortMode}`,`sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`)%>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort'%>"></i></a> Title</th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, `sortBy=complete`).replace(`sortMode=${sortMode}`,`sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`)%>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i></a> Complete</th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=deadline').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'deadline' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i></a> Deadline</th>
                 <th>Actions</th>
               </tr>
             </thead>
