@@ -97,9 +97,9 @@
             <thead>
               <tr>
                 <th>No.</th>
-                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=title').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Title</a></th>
-                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=complete').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Complete</a></th>
-                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=deadline').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Deadline</a></th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, `sortBy=title`).replace(`sortMode=${sortMode}`,`sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`)%>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort'%>"></i> Title</a></th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, `sortBy=complete`).replace(`sortMode=${sortMode}`,`sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`)%>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Complete</a></th>
+                <th><a href="/users<%= url.replace(`sortBy=${sortBy}`, 'sortBy=deadline').replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>" style="color: black;"><i class="fa-solid fa-<%= sortBy == 'deadline' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Deadline</a></th>
                 <th>Actions</th>
               </tr>
             </thead>
